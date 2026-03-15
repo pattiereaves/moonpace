@@ -21,8 +21,6 @@ Coaches building training programs face several challenges:
 - **Session**: An individual training day/workout
 
 ### Key Entities
-- **Coach**: Creates and manages training programs for one or more athletes
-- **Athlete**: Has a profile with schedule constraints, training history, and personal rhythms
 - **Program**: A complete training plan spanning a macrocycle, composed of nested cycles
 - **Schedule**: An athlete's availability calendar including recurring and one-off events
 - **Rhythm**: Patterns in an athlete's recovery, energy, and performance (e.g., weekly, monthly)
@@ -30,7 +28,6 @@ Coaches building training programs face several challenges:
 ## Features
 
 ### Phase 1 — Foundation
-- Coach and athlete account creation
 - Athlete profile with basic information (sport, experience level, goals)
 - Manual schedule entry (available days, blackout dates)
 - Simple program builder: create mesocycles and microcycles with sessions
@@ -50,10 +47,8 @@ Coaches building training programs face several challenges:
 - Deload week auto-scheduling based on accumulated fatigue
 - Program templates for common periodization models (linear, undulating, block)
 
-### Phase 4 — Collaboration & Sharing
-- Athlete-facing view of their program
+### Phase 4 — Sharing & Export
 - Session completion logging and notes
-- Coach-athlete messaging around specific sessions
 - Program export (PDF, calendar sync)
 - Program template library
 
@@ -64,7 +59,6 @@ Coaches building training programs face several challenges:
 - **Backend**: Node.js with Express or Fastify
 - **Database**: PostgreSQL (relational data fits the domain well)
 - **ORM**: Prisma
-- **Auth**: Session-based or JWT
 - **Styling**: Tailwind CSS
 - **Calendar UI**: A calendar library (e.g., FullCalendar) for the program view
 - **Testing**: Vitest (unit), Playwright (e2e)
@@ -84,18 +78,12 @@ moonpace/
 
 ### Data Model (High-Level)
 ```
-Coach
-  ├── has many Athletes
-  └── has many Programs
-
 Athlete
-  ├── belongs to Coach
   ├── has one Schedule
   ├── has many Rhythms
   └── has many Programs
 
 Program
-  ├── belongs to Coach
   ├── belongs to Athlete
   └── has many Mesocycles
         └── has many Microcycles
@@ -121,16 +109,14 @@ Session
 
 ### Getting Started (Phase 1 Milestones)
 1. Initialize monorepo with tooling (TypeScript, linting, testing)
-2. Define database schema for core entities (Coach, Athlete, Program, cycles, sessions)
+2. Define database schema for core entities (Athlete, Program, cycles, sessions)
 3. Build API endpoints for CRUD on programs and schedules
-4. Create the frontend shell with routing and auth
+4. Create the frontend shell with routing
 5. Implement the program builder UI
 6. Implement the calendar view
 7. Deploy a working prototype
 
 ## Open Questions
-- Should this be multi-tenant from the start, or single-coach initially?
 - What sports/disciplines should drive the initial periodization templates?
 - Is there a preference for a monorepo tool (Turborepo, Nx, or simple workspaces)?
-- Should athlete self-service (creating their own account, viewing programs) be part of Phase 1?
 - Mobile-first or desktop-first for the initial UI?
